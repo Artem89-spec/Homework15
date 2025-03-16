@@ -1,34 +1,28 @@
 package org.skypro.skyshop.product;
 
-public class Product {
-    private String productName;
-    private int price;
+public abstract class Product {
+    private final String productName;
 
-    public Product(String productName, int price) {
+    public Product(String productName) {
         if (productName == null) {
             throw new IllegalArgumentException("Введите название продукта");
-        } else if (price <= 0) {
-            throw new IllegalArgumentException("Установите цену продукта");
         }
         this.productName = productName;
-        this.price = price;
     }
 
     public String getProductName() {
         return productName;
     }
 
-    public int getPrice() {
-        return price;
-    }
+    public abstract double getPrice();
 
-    public String getFormattedPrice() {
-        return String.format("%,d", price).replace(',', ' ');
-    }
+    public abstract String getFormattedPrice();
+
+    public abstract boolean isSpecial();
 
     @Override
     public String toString() {
-        return  productName  + ": " + "  " + getFormattedPrice();
+        return productName  + " ";
     }
 
     @Override
@@ -39,11 +33,11 @@ public class Product {
             return false;
         }
         Product object = (Product) other;
-        return productName.equals(object.productName) && price == object.price;
+        return productName.equals(object.productName);
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(productName, price);
+        return java.util.Objects.hash(productName);
     }
 }

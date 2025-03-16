@@ -26,8 +26,8 @@ public class ProductBasket {
         System.out.println();
     }
 
-    public int getTotalPrice() {
-        int total = 0;
+    public double getTotalPrice() {
+        double total = 0;
         for (Product product : products) {
             if (product != null) {
                 total += product.getPrice();
@@ -38,18 +38,22 @@ public class ProductBasket {
 
     public void printProductBasket() {
         int counter = 0;
+        int specialProduct = 0;
+      
         for (Product product : products) {
             if (product != null) {
                 System.out.println(product);
                 counter++;
+                specialProduct += product.isSpecial() ? 1 : 0;
             }
         }
-        String formattedPrice = String.format("%,d", getTotalPrice());
+        String formattedPrice = String.format("%,.2f", getTotalPrice()).replace(',','.');
         if (counter == 0) {
             System.out.println("В корзине пусто");
-            System.out.printf("Общая стоимость корзины: %s%n", formattedPrice);
+            System.out.printf("Итого: %s%n", formattedPrice);
         } else {
-            System.out.printf("Общая стоимость корзины: %s%n", formattedPrice);
+            System.out.printf("Итого: %s%n", formattedPrice);
+            System.out.printf("Специальных товаров: %d%n", specialProduct);
         }
     }
 
