@@ -6,7 +6,7 @@ public class SimpleProduct extends Product {
     public SimpleProduct(String productName, int price) {
         super(productName);
         if (price <= 0) {
-          throw new IllegalArgumentException("Установите цену товара");
+            throw new IllegalArgumentException("Установите цену товара");
         }
         this.price = price;
     }
@@ -28,7 +28,7 @@ public class SimpleProduct extends Product {
 
     @Override
     public String toString() {
-        return super.toString() + ": "  + getFormattedPrice();
+        return super.toString() + ": " + getFormattedPrice();
     }
 
     @Override
