@@ -14,7 +14,7 @@ public class FixPriceProduct extends Product {
 
     @Override
     public String getFormattedPrice() {
-        return String.format("%,.2f", getPrice()).replace(',','.');
+        return String.format("%,.2f", getPrice()).replace(',', '.');
     }
 
     @Override
@@ -24,7 +24,7 @@ public class FixPriceProduct extends Product {
 
     @Override
     public String toString() {
-        return super.toString() + "c фиксированной ценой: " + "Фиксированная цена "  + getFormattedPrice();
+        return super.toString() + "c фиксированной ценой: " + "Фиксированная цена " + getFormattedPrice();
     }
 
     @Override
