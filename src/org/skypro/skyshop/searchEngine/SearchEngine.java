@@ -55,7 +55,7 @@ public class SearchEngine {
         return count;
     }
 
-    public Searchable searchTheMostSuitableResult(String search) throws BestResultNotFound {
+    public Searchable searchTheMostSuitableResult(String search) {
         if (search == null || search.isEmpty()) {
             throw new IllegalArgumentException("Введите наименование товара или его категорию");
         }
