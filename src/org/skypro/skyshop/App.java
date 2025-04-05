@@ -9,7 +9,6 @@ import org.skypro.skyshop.productCategories.Article;
 import org.skypro.skyshop.searchEngine.SearchEngine;
 import org.skypro.skyshop.exception.BestResultNotFound;
 
-
 public class App {
     public static void main(String[] args) {
         ProductBasket productBasket = new ProductBasket();
@@ -40,7 +39,7 @@ public class App {
         System.out.println(productBasket.searchProductByName("Наушники"));
         System.out.println();
 
-        SearchEngine searchEngine = new SearchEngine(15);
+        SearchEngine searchEngine = new SearchEngine();
         productBasket.addProduct(new DiscountedProduct("Мышь беспроводная", 1_500, 10));
         productBasket.addProduct(new SimpleProduct("Фронтальные колонки", 15_000));
         productBasket.addProduct(new DiscountedProduct("Наушники", 8_000, 5));
@@ -118,5 +117,28 @@ public class App {
         } catch (BestResultNotFound e) {
             System.out.println(e.getMessage());
         }
+
+        productBasket.addProduct(new DiscountedProduct("Мышь беспроводная", 1_500, 10));
+        productBasket.addProduct(new SimpleProduct("Фронтальные колонки", 15_000));
+        productBasket.addProduct(new DiscountedProduct("Наушники", 8_000, 5));
+        productBasket.addProduct(new FixPriceProduct("Веб-камера"));
+        productBasket.addProduct(new FixPriceProduct("Клавиатура"));
+        productBasket.addProduct(new FixPriceProduct("Веб-камера"));
+        productBasket.addProduct(new SimpleProduct("Монитор", 40_000));
+        productBasket.printProductBasket();
+        System.out.println();
+
+
+        productBasket.removeAndPrintRemovedProducts("веб");
+        System.out.println();
+
+        productBasket.printProductBasket();
+        System.out.println();
+
+        productBasket.removeAndPrintRemovedProducts("веб");
+        System.out.println();
+
+        productBasket.printProductBasket();
+        System.out.println();
     }
 }

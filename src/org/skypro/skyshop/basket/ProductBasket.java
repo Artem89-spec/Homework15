@@ -2,32 +2,26 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
-import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.LinkedList;
 
 public class ProductBasket {
-    private final Product[] products;
-    private final static int MAX_PRODUCT_BASKET = 5;
-
+    private final List<Product> products;
 
     public ProductBasket() {
-        this.products = new Product[MAX_PRODUCT_BASKET];
+        this.products = new LinkedList<>();
     }
 
-    public Product[] getProducts() {
-        return Arrays.copyOf(products, products.length);
+    public List<Product> getProducts() {
+        return new LinkedList<>(products);
     }
 
     public void addProduct(Product product) {
         if (product == null) {
             throw new IllegalArgumentException("Добавьте товар в корзину");
         }
-        for (int i = 0; i < products.length; i++) {
-            if (products[i] == null) {
-                products[i] = product;
-                return;
-            }
-        }
-        System.out.println("Невозможно добавить продукт");
+        products.add(product);
         System.out.println();
     }
 
@@ -72,6 +66,34 @@ public class ProductBasket {
     }
 
     public void removeProductBasket() {
-        Arrays.fill(products, null);
+        products.clear();
+    }
+
+    public List<Product> removeProductByName(String str) {
+        if (str == null || str.isEmpty()) {
+            throw new IllegalArgumentException("Введите наименование товара который необходимо удалить");
+        }
+        List<Product> removedProducts = new LinkedList<>();
+        Iterator<Product> it = products.iterator();
+        while (it.hasNext()) {
+            Product product = it.next();
+            if (product.getProductName().toLowerCase().contains(str.toLowerCase())) {
+                removedProducts.add(product);
+                it.remove();
+            }
+        }
+        return removedProducts;
+    }
+
+    public void removeAndPrintRemovedProducts(String productName) {
+        List<Product> removedProducts = removeProductByName(productName);
+        if (removedProducts.isEmpty()) {
+            System.out.println("Список пуст");
+        } else {
+            System.out.println("Список удаленных товаров:");
+            for (Product product : removedProducts) {
+                System.out.println(product);
+            }
+        }
     }
 }
