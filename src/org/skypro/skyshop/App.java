@@ -7,6 +7,7 @@ import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.productCategories.Article;
 import org.skypro.skyshop.searchEngine.SearchEngine;
+import org.skypro.skyshop.exception.BestResultNotFound;
 
 
 public class App {
@@ -74,5 +75,48 @@ public class App {
         System.out.println();
         searchEngine.printSearch(searchEngine.search("Веб"));
         System.out.println();
+
+        productBasket.removeProductBasket();
+        productBasket.printProductBasket();
+        System.out.println();
+
+        try {
+            productBasket.addProduct(new FixPriceProduct(null));
+            productBasket.addProduct(new FixPriceProduct(" "));
+            productBasket.addProduct(new FixPriceProduct(""));
+            productBasket.addProduct(new SimpleProduct(null, 1000));
+            productBasket.addProduct(new SimpleProduct(" ", 1000));
+            productBasket.addProduct(new SimpleProduct("", 1000));
+            productBasket.addProduct(new DiscountedProduct(null, 5000, 5));
+            productBasket.addProduct(new DiscountedProduct(" ", 5000, 5));
+            productBasket.addProduct(new DiscountedProduct("", 5000, 5));
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+
+        try {
+            productBasket.addProduct(new SimpleProduct("Процессор", -1000));
+            productBasket.addProduct(new SimpleProduct("Процессор", 0));
+            productBasket.addProduct(new DiscountedProduct("Мышь беспроводная", -500, 10));
+            productBasket.addProduct(new DiscountedProduct("Мышь беспроводная", 0, 10));
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+
+        try {
+            productBasket.addProduct(new DiscountedProduct("Мышь беспроводная", 500, 101));
+            productBasket.addProduct(new DiscountedProduct("Мышь беспроводная", 500, -1));
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            System.out.println("Исключения обработаны.");
+        }
+
+        try {
+            System.out.println(searchEngine.searchTheMostSuitableResult("периф"));
+            System.out.println(searchEngine.searchTheMostSuitableResult("микрофон"));
+        } catch (BestResultNotFound e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

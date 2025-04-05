@@ -14,7 +14,7 @@ public class ProductBasket {
     }
 
     public Product[] getProducts() {
-        return products;
+        return Arrays.copyOf(products, products.length);
     }
 
     public void addProduct(Product product) {
