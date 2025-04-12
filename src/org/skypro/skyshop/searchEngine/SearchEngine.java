@@ -3,39 +3,36 @@ package org.skypro.skyshop.searchEngine;
 import org.skypro.skyshop.Searchable;
 import org.skypro.skyshop.exception.BestResultNotFound;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.LinkedList;
 
 
 public class SearchEngine {
-    private final Searchable[] contents;
-    private final static int MAX_CONTENTS = 5;
+    private final List<Searchable> contents;
 
-    public SearchEngine(int size) {
-        this.contents = new Searchable[size];
+    public SearchEngine() {
+        this.contents = new LinkedList<>();
     }
 
-    public Searchable[] search(String str) {
+    public List<Searchable> search(String str) {
         if (str == null || str.isEmpty()) {
             throw new IllegalArgumentException("Введите наименование товара или его категорию");
         }
-
-        Searchable[] results = new Searchable[MAX_CONTENTS];
-        int index = 0;
+        List<Searchable> results = new LinkedList<>();
         for (Searchable searchable : contents) {
-            if (index >= MAX_CONTENTS) {
-                break;
-            }
-
             if (searchable != null && searchable.getSearchTerm() != null &&
                     searchable.getSearchTerm().contains(str)) {
-                results[index] = searchable;
-                index++;
+                results.add(searchable);
             }
         }
         return results;
     }
 
-    public void printSearch(Searchable[] results) {
+    public void printSearch(List<Searchable> results) {
+        if (results.isEmpty()) {
+            System.out.println("Товар или его категория не найдены.");
+            return;
+        }
         for (Searchable searchable : results) {
             if (searchable != null) {
                 System.out.println(searchable.getStringRepresentation());
@@ -83,19 +80,11 @@ public class SearchEngine {
         if (searchable == null) {
             throw new IllegalArgumentException("Необходимо предоставить объект для добавления");
         }
-        for (int i = 0; i < contents.length; i++) {
-            if (contents[i] == null) {
-                contents[i] = searchable;
-                return;
-            }
-
-        }
-        System.out.println("Невозможно добавить товар или категорию товара");
-        System.out.println();
+        contents.add(searchable);
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(contents);
+        return contents.toString();
     }
 }
