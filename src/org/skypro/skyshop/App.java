@@ -45,7 +45,7 @@ public class App {
         productBasket.addProduct(new DiscountedProduct("Наушники", 8_000, 5));
         productBasket.addProduct(new FixPriceProduct("Веб-камера"));
         productBasket.addProduct(new FixPriceProduct("Клавиатура"));
-        for (Product product : productBasket.getProducts()) {
+        for (Product product : productBasket.getAllProducts()) {
             if (product != null) {
                 searchEngine.add(product);
             }
