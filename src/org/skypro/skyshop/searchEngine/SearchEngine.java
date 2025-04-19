@@ -5,6 +5,8 @@ import org.skypro.skyshop.exception.BestResultNotFound;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 public class SearchEngine {
@@ -14,26 +16,27 @@ public class SearchEngine {
         this.contents = new LinkedList<>();
     }
 
-    public List<Searchable> search(String str) {
-        if (str == null || str.isEmpty()) {
+    public Map<String, Searchable> search(String name) {
+        if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Введите наименование товара или его категорию");
         }
-        List<Searchable> results = new LinkedList<>();
+        Map<String, Searchable> results = new TreeMap<>();
         for (Searchable searchable : contents) {
             if (searchable != null && searchable.getSearchTerm() != null &&
-                    searchable.getSearchTerm().contains(str)) {
-                results.add(searchable);
+                    searchable.getSearchTerm().contains(name)) {
+                results.put(searchable.getSearchTerm(), searchable);
             }
         }
         return results;
     }
 
-    public void printSearch(List<Searchable> results) {
+    public void printSearch(Map<String, Searchable> results) {
         if (results.isEmpty()) {
             System.out.println("Товар или его категория не найдены.");
             return;
         }
-        for (Searchable searchable : results) {
+        for (Map.Entry<String, Searchable> entry : results.entrySet()) {
+            Searchable searchable = entry.getValue();
             if (searchable != null) {
                 System.out.println(searchable.getStringRepresentation());
             }
