@@ -6,7 +6,7 @@ import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.productCategories.Article;
-import org.skypro.skyshop.searchEngine.SearchEngine;
+import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.exception.BestResultNotFound;
 
 public class App {
@@ -140,5 +140,44 @@ public class App {
 
         productBasket.printProductBasket();
         System.out.println();
+
+        Article article5 = new Article("Периферийные устройства", "Мышь проводная");
+        Article article6 = new Article("Наушники и аудиотехника", "Фронтальные колонки 5.0");
+        Article article7 = new Article("Периферийные устройства", "Клавиатура беспроводная");
+        Article article8 = new Article("Периферийные устройства", "Камера");
+        Article article9 = new Article("Наушники и аудиотехника", "Наушники беспроводные");
+        Article article10 = new Article("Процессоры", "Процессор Intel Core i7 13700 KF");
+        Article article11 = new Article("Процессоры", "Процессор Intel Core i7 13700 K");
+        Article article12 = new Article("Процессоры", "Процессор Intel Core i9 13900 K");
+        productBasket.addProduct(new DiscountedProduct("Мышь проводная", 1000, 5));
+        productBasket.addProduct(new SimpleProduct("Фронтальные колонки 5.0", 33_000));
+        productBasket.addProduct(new SimpleProduct("Наушники беспроводные", 9_000));
+        productBasket.addProduct(new SimpleProduct("Процессор Intel Core i7 13700 KF", 26_000));
+        productBasket.addProduct(new SimpleProduct("Процессор Intel Core i7 13700 K", 35_000));
+        productBasket.addProduct(new DiscountedProduct("Клавиатура беспроводная", 15_000, 13));
+        productBasket.addProduct(new FixPriceProduct("Камера"));
+        for (Product product : productBasket.getAllProducts()) {
+            if (product != null) {
+                searchEngine.add(product);
+            }
+        }
+        searchEngine.add(article5);
+        searchEngine.add(article6);
+        searchEngine.add(article7);
+        searchEngine.add(article8);
+        searchEngine.add(article9);
+        searchEngine.add(article10);
+        searchEngine.add(article11);
+        searchEngine.add(article12);
+        System.out.println(searchEngine);
+        searchEngine.printSearch(searchEngine.search("Мышь"));
+        System.out.println();
+        searchEngine.printSearch(searchEngine.search("Проц"));
+        System.out.println();
+        searchEngine.printSearch(searchEngine.search("кам"));
+        System.out.println();
+        searchEngine.printSearch(searchEngine.search("периф"));
+        System.out.println();
+        searchEngine.printSearch(searchEngine.search("аудио"));
     }
 }

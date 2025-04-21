@@ -1,42 +1,37 @@
-package org.skypro.skyshop.searchEngine;
+package org.skypro.skyshop.search;
 
-import org.skypro.skyshop.Searchable;
 import org.skypro.skyshop.exception.BestResultNotFound;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 
 public class SearchEngine {
-    private final List<Searchable> contents;
+    private final Set<Searchable> contents;
 
     public SearchEngine() {
-        this.contents = new LinkedList<>();
+        this.contents = new HashSet<>();
     }
 
-    public Map<String, Searchable> search(String name) {
+    public Set<Searchable> search(String name) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Введите наименование товара или его категорию");
         }
-        Map<String, Searchable> results = new TreeMap<>();
+        Set<Searchable> results = new TreeSet<>(new SearchableComparator());
         for (Searchable searchable : contents) {
             if (searchable != null && searchable.getSearchTerm() != null &&
-                    searchable.getSearchTerm().contains(name)) {
-                results.put(searchable.getSearchTerm(), searchable);
+                    searchable.getSearchTerm().toLowerCase().contains(name.toLowerCase())) {
+                results.add(searchable);
             }
         }
         return results;
     }
 
-    public void printSearch(Map<String, Searchable> results) {
+    public void printSearch(Set<Searchable> results) {
         if (results.isEmpty()) {
             System.out.println("Товар или его категория не найдены.");
             return;
         }
-        for (Map.Entry<String, Searchable> entry : results.entrySet()) {
-            Searchable searchable = entry.getValue();
+        for (Searchable searchable : results) {
             if (searchable != null) {
                 System.out.println(searchable.getStringRepresentation());
             }
