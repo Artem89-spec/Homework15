@@ -3,6 +3,7 @@ package org.skypro.skyshop.basket;
 import org.skypro.skyshop.product.Product;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class ProductBasket {
     private final Map<String, List<Product>> products;
@@ -32,38 +33,40 @@ public class ProductBasket {
     }
 
     public double getTotalPrice() {
-        double total = 0;
-        for (List<Product> productList : products.values()) {
-            for (Product product : productList) {
-                if (product != null) {
-                    total += product.getPrice();
-                }
-            }
-        }
-        return total;
+        return getProductsStream()
+                .mapToDouble(Product::getPrice)
+                .sum();
     }
 
     public void printProductBasket() {
-        int counter = 0;
-        int specialProduct = 0;
-
-        for (List<Product> productList : products.values()) {
-            for (Product product : productList) {
-                if (product != null) {
-                    System.out.println(product);
-                    counter++;
-                    specialProduct += product.isSpecial() ? 1 : 0;
-                }
-            }
-        }
+        Stream<Product> productStream = getProductsStream();
+        productStream.forEach(System.out::println);
+        long specialProduct = getSpecialCount();
         String formattedPrice = String.format("%,.2f", getTotalPrice()).replace(',', '.');
-        if (counter == 0) {
+        if (getProductsCount() == 0) {
             System.out.println("В корзине пусто");
             System.out.printf("Итого: %s%n", formattedPrice);
         } else {
             System.out.printf("Итого: %s%n", formattedPrice);
             System.out.printf("Специальных товаров: %d%n", specialProduct);
         }
+    }
+
+    private Stream<Product> getProductsStream() {
+        return products.values().stream()
+                .flatMap(List::stream)
+                .filter(Objects::nonNull);
+    }
+
+    public long getSpecialCount() {
+        return getProductsStream()
+                .filter(Product::isSpecial)
+                .count();
+    }
+
+    public long getProductsCount() {
+        return getProductsStream()
+                .count();
     }
 
     public boolean searchProductByName(String productName) {
