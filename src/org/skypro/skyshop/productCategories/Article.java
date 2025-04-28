@@ -22,7 +22,7 @@ public final class Article implements Searchable {
     public boolean equals(Object other) {
         if (this == other) {
             return true;
-        } else if (this.getClass() != other.getClass()) {
+        } else if (other == null || this.getClass() != other.getClass()) {
             return false;
         }
         Article object = (Article) other;

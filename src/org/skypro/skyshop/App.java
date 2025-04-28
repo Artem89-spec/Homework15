@@ -179,5 +179,7 @@ public class App {
         searchEngine.printSearch(searchEngine.search("периф"));
         System.out.println();
         searchEngine.printSearch(searchEngine.search("аудио"));
+        System.out.println();
+        productBasket.printProductBasket();
     }
 }
